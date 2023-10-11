@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session storage</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Session storage with form</h1>
+        <h3>User information</h3>
+        <form>
+            <label for="name">User name:</label>
+            <input type="text" id="name" required placeholder="Enter user name">
+            <label for="email">User email:</label>
+            <input type="email" id="email" required placeholder="Enter user email">
+            <button id="btn1">Next</button>
+        </form>
+    </div>
+    <script>
+        const name = document.getElementById("name");
+        const email = document.getElementById("email");
+        // This function for get data from session storage.
+        function storeaddata() { 
+            const userdata = sessionStorage.getItem("user")||{}
+            if(userdata.length>0){
+             const data=JSON.parse(userdata)
+            name.value=data.name;
+            email.value = data.email;
+            }
+        }
+        storeaddata()
+
+        const firstbtn = document.getElementById("btn1");
+        firstbtn.addEventListener("click",addsessiondata)
+        // This function for set data to session storage.
+        function addsessiondata(e){
+            e.preventDefault()
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            if(!name=="" && !email==""){
+            const userdata = JSON.parse(sessionStorage.getItem("user"))||{}
+            userdata.name=name
+            userdata.email=email
+            sessionStorage.setItem("user",JSON.stringify(userdata))
+            window.location.href="http://127.0.0.1:5500/step2.html"
+            
+            }else{
+                alert("Please enter the data")
+                name.focus()
+            }
+        }
+
+
+
+
+    </script>
+</body>
+
+</html>
